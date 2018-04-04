@@ -17,24 +17,9 @@ describe("ClusterTest", () => {
         });
     });
 
-    it("create index", (done) => {
-        client.indices.create({
-            index : "exampledsdsdw",
-            body : {
-                "settings" : {
-                    "number_of_shards" : 1,
-                    "number_of_replicas" : 0
-                },
-                "mappings" : {
-                    "profile" : {
-                        "properties" : {
-                            "location" : { "type" : "geo_point" },
-                            "username" : { "type" : "text" },
-                            "name" : { "type" : "text" }
-                        }
-                    }
-                }
-            }
+    it("cluster nodes", (done) => {
+        client.cat.nodes({
+            format : "json"
         }).then(response => {
             done();
         }).catch(error => {
