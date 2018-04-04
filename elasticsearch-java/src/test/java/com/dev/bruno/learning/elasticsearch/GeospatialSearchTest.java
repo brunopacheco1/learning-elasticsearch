@@ -53,7 +53,7 @@ public class GeospatialSearchTest {
     public static void setUp() {
         highLevelClient = new RestHighLevelClient(
             RestClient.builder(
-                new HttpHost("192.168.99.100", 9200, "http")
+                new HttpHost("localhost", 9200, "http")
             )
         );
 
