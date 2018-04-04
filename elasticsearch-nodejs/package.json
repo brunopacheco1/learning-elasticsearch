@@ -1,0 +1,15 @@
+{
+  "name": "elasticsearch-nodejs",
+  "version": "1.0.0",
+  "description": "Elastic + Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "elasticsearch": "^14.2.2",
+    "mocha": "^5.0.5"
+  }
+}
