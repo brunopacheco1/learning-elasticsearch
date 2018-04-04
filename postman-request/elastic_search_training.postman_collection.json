@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3653b818-9c5c-4ed3-9b4c-ec1190439f96",
+		"_postman_id": "c89fec1d-ea27-480b-9a56-3b0184366c4f",
 		"name": "elastic_search_training",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,7 +10,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/_cat/health?v",
 					"host": [
@@ -36,7 +39,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/_cat/nodes?v",
 					"host": [
@@ -62,7 +68,10 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/customer?pretty",
 					"host": [
@@ -87,7 +96,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/customer",
 					"host": [
@@ -106,7 +118,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/_cat/indices?v",
 					"host": [
@@ -286,7 +301,10 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/customer",
 					"host": [
@@ -305,7 +323,10 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/bank?pretty",
 					"host": [
@@ -486,7 +507,10 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:9200/bank",
 					"host": [
@@ -495,6 +519,124 @@
 					"port": "9200",
 					"path": [
 						"bank"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create index for geo query",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"settings\" : {\r\n        \"number_of_shards\" : 5,\r\n        \"number_of_replicas\" : 0\r\n    },\r\n    \"mappings\" : {\r\n        \"_doc\" : {\r\n            \"properties\" : {\r\n                \"location\" : { \"type\" : \"geo_shape\" },\r\n                \"name\" : { \"type\" : \"text\" }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:9200/example?pretty",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"example"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bulk for geo query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"index\":{\"_id\":\"1\"}}\r\n{\"name\": \"Wind & Wetter, Berlin, Germany\", \"location\": { \"type\": \"point\", \"coordinates\": [13.400544, 52.530286] }}\r\n"
+				},
+				"url": {
+					"raw": "localhost:9200/example/_doc/_bulk?pretty",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"example",
+						"_doc",
+						"_bulk"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "geo query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n   \"query\":{  \r\n      \"bool\":{  \r\n         \"must\":[  \r\n            {  \r\n               \"match_all\":{ \"boost\":1.0 }\r\n            }\r\n         ],\r\n         \"filter\":[{  \r\n               \"geo_shape\":{  \r\n                  \"location\":{  \r\n                     \"shape\":{  \r\n                        \"type\":\"envelope\",\r\n                        \"coordinates\":[  \r\n                           [  \r\n                              13.0,\r\n                              53.0\r\n                           ],\r\n                           [  \r\n                              14.0,\r\n                              52.0\r\n                           ]\r\n                        ]\r\n                     },\r\n                     \"relation\":\"within\"\r\n                  },\r\n                  \"ignore_unmapped\":false,\r\n                  \"boost\":1.0\r\n               }\r\n            }\r\n         ],\r\n         \"adjust_pure_negative\":true,\r\n         \"boost\":1.0\r\n      }\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:9200/example/_search",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"example",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete index geo query",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:9200/example",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"example"
 					]
 				}
 			},
