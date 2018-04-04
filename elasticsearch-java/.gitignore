@@ -1,0 +1,10 @@
+/target
+/build
+/bin
+/.git
+/.metadata
+/.settings
+/.classpath
+/.project
+/.idea
+/elasticsearch-java.iml
