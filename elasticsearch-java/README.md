@@ -1,4 +1,4 @@
-# elasticsearch-nodejs
+# elasticsearch-java
 Applying in Java what I have learned about Elastic.
 
 ## Running the tests
