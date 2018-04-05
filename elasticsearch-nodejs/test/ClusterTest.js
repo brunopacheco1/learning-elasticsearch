@@ -3,7 +3,7 @@ const ElasticSearch = require("elasticsearch");
 describe("ClusterTest", () => {
 
     const client = new ElasticSearch.Client({
-        host :  "192.168.99.100:9200"
+        host :  "localhost:9200"
         //log : "trace"
     });
 

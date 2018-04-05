@@ -4,7 +4,7 @@ const axios = require("axios");
 describe("SearchTest", () => {
 
     const client = new ElasticSearch.Client({
-        host :  "192.168.99.100:9200"
+        host :  "localhost:9200"
         //log : "trace"
     });
 
@@ -133,11 +133,9 @@ describe("SearchTest", () => {
                 }
             }
         }).then(response => {
-            console.log(response);
-
             const byState = response.aggregations.group_by_state;
 
-            if(byState && byState.doc_count_error_upper_bound == 20 && byState.sum_other_doc_count == 770) {
+            if(byState && byState.doc_count_error_upper_bound == 0 && byState.sum_other_doc_count == 743) {
                 done();
             } else {
                 done("Failed: Search using aggregations has some problem.");
