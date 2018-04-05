@@ -86,6 +86,22 @@ describe("DocumentsTest", () => {
         });
     });
 
+    it("document get after update", (done) => {
+        client.get({
+            index : "customer",
+            type : "_doc",
+            id : "1"
+        }).then(response => {
+            if(response && response.found && response._source.name == "John Doe Updated") {
+                done();
+            } else {
+                done("Failed: Document wasn't found or it wasn't updated properly.");
+            }
+        }).catch(error => {
+            done(error);
+        });
+    });
+
     it("document delete", (done) => {
         client.delete({
             index : "customer",
