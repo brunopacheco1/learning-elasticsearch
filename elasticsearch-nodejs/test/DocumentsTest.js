@@ -120,12 +120,14 @@ describe("DocumentsTest", () => {
 
     it("document bulk", (done) => {
         client.bulk({
+            index : "customer",
+            type: "_doc",
             body : [
-                {index : { _index: "customer", _type: "_doc", _id: "1" }},
+                {index : { _id: "1" }},
                 {name : "John Doe" },
-                {update : { _index: "customer", _type: "_doc", _id : "1" }},
+                {update : { _id : "1" }},
                 {doc : { name : "John Doe becomes Jane Doe" }},
-                {delete : { _index: "customer", _type: "_doc", _id : "1" }}
+                {delete : { _id : "1" }}
             ]
         }).then(response => {
             if(response && !response.errors) {
